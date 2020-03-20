@@ -1,0 +1,103 @@
+{% extends "ride_app/base.html" %}
+{% block content2 %}
+<h1>{{user.first_name}}'s Completed Rides</h1>
+<h3>As an Owner</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Ride ID</th>
+      <th scope="col">Destination</th>
+      <th scope="col">Arrival Time</th>
+        <th scope="col">Ride Status</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for ride in qs %}
+    {% if ride.owner == user%}
+     <tr>
+      <th scope="row">{{ride.unique_id}}</th>
+      <td>{{ride.dest_addr}}</td>
+      <td>{{ride.arr_date_time}}</td>
+         <td>{{ride.status}}</td>
+         <td><a href="{% url 'ride-detail' ride.id %}">Detail</a></td>
+     </tr>
+    {% endif %}
+  {% endfor %}
+  </tbody>
+</table>
+
+
+
+
+
+
+<h3>As a Sharer</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Ride ID</th>
+      <th scope="col">Destination</th>
+      <th scope="col">Arrival Time</th>
+        <th scope="col">Ride Status</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for ride in qs %}
+    {% for sharer in ride.sharer.all %}
+     {% if sharer.user == user %}
+     <tr>
+      <th scope="row">{{ride.unique_id}}</th>
+      <td>{{ride.dest_addr}}</td>
+      <td>{{ride.arr_date_time}}</td>
+         <td>{{ride.status}}</td>
+         <td><a href="{% url 'ride-detail' ride.id %}">Detail</a></td>
+     </tr>
+        {% endif %}
+    {% endfor %}
+  {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+
+
+<h3>As a Driver</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Ride ID</th>
+      <th scope="col">Destination</th>
+      <th scope="col">Arrival Time</th>
+        <th scope="col">Ride Status</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for ride in qs %}
+    {% if ride.driver.user == user %}
+     <tr>
+      <th scope="row">{{ride.unique_id}}</th>
+      <td>{{ride.dest_addr}}</td>
+      <td>{{ride.arr_date_time}}</td>
+         <td>{{ride.status}}</td>
+         <td><a href="{% url 'driver-detail' ride.id %}">Detail</a></td>
+     </tr>
+    {% endif %}
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class = "row">
+  <div class = 'col-md-11'></div>
+    <div class = 'col-md-1'>
+        <a href="{% url 'user-home' %}">Back</a>
+    </div>
+</div>
+{% endblock content2%}
+
+
+

@@ -1,0 +1,102 @@
+{% extends "ride_app/base.html" %}
+
+{% block content3 %}
+
+<h1>Search Rides to Join</h1>
+<form method = "GET" action=".">
+
+    <div class="form-group row">
+        <label for="colFormLabel" class="col-sm-4 Destination Address">Destination Address</label>
+        <div class="col-sm-6">
+            <input type="search", class = "form-control", name = "dest_addr", id="colFormLabel", placeholder="Destination Address">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="colFormLabel" class="col-sm-4 Destination Address">Earliest Arrival Time</label>
+        <div class="col-sm-6">
+            <input type="datetime", class = "form-control", name = "earliest_time", id="colFormLabel", placeholder="YYYY-MM-dd HH:mm">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="colFormLabel" class="col-sm-4 Destination Address">Latest Arrival Time</label>
+        <div class="col-sm-6">
+            <input type="datetime", class = "form-control", name = "latest_time", id="colFormLabel", placeholder="YYYY-MM-dd HH:mm">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="colFormLabel" class="col-sm-4 Destination Address">Number of Passengers</label>
+        <div class="col-sm-6">
+            <input type="search", class = "form-control", name = "no_persons", id="colFormLabel", placeholder="Number of Passengers">
+        </div>
+    </div>
+
+    <div class = row>
+        <div class = 'col-md-9'></div>
+        <div class = 'col-md-3'>
+            <button type="submit">Search</button>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+<!--<form>
+  <div class="form-row">
+    <div class="col">
+      <input type="text" class="form-control" placeholder="First name">
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Last name">
+    </div>
+  </div>
+</form>-->
+{% endblock content3 %}
+
+
+
+{% block content2 %}
+    <h3>Available Rides</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Ride ID</th>
+            <th scope = 'col'>Owner Name</th>
+          <th scope="col">Destination</th>
+          <th scope="col">Arrival Time</th>
+          <th scope="col">Maximum Allowed Sharers</th>
+            <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for ride in queryset %}
+         <tr>
+          <td scope="row">{{ride.unique_id}}</td>
+             <td scope="row">{{ride.owner.first_name}}</td>
+          <td>{{ride.dest_addr}}</td>
+          <td>{{ride.arr_date_time}}</td>
+             <td>{{ride.max_allowed_persons}}</td>
+             <td>
+                 <form action = "" method = "post", name = 'lihaile'>
+              {% csrf_token %}
+                     <button type="submit" name = 'join_ride' value={{ride.id}}>join</button>
+          </form>
+             </td>
+         </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+
+<div class = "row">
+  <div class = 'col-md-11'>
+  </div>
+    <div class = 'col-md-1'>
+        <a href="{% url 'user-home' %}">Back</a>
+    </div>
+</div>
+{%endblock content2%}

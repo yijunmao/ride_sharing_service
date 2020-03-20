@@ -1,0 +1,59 @@
+{% extends "ride_app/base.html" %}
+{% block content %}
+<table class="table">
+  <thead>
+    <h1>Driver Profile</h1>
+  </thead>
+  <tbody>
+
+    <tr>
+      <th scope="row">Driver Name</th>
+      <td>{{object.user.first_name}}&nbsp{{object.user.last_name}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">License Number</th>
+        <td>{{object.license_no}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">Vehicle Type</th>
+        <td>{{object.vehicle.vehicle_type}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">Vehicle Make</th>
+        <td>{{object.vehicle.vehicle_make}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">Plate Number</th>
+        <td>{{object.vehicle.plate_number}}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">Vehicle Capacity</th>
+        <td>{{object.vehicle.vehicle_capacity}}</td>
+    </tr>
+
+
+    <tr>
+      <th scope="row">Special Vehicle Info</th>
+        <td>{{object.vehicle.special_vehicle_info}}</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<div class = "row">
+  <div class='col-md-1'>
+      <a href="{% url 'driver-update' object.id %}">Edit</a>
+  </div>
+  <div class = 'col-md-10'></div>
+  <div class = 'col-md-1'>
+        <a href="{% url 'driver-menu' %}">Back</a>
+  </div>
+</div>
+
+{% endblock content %}
+

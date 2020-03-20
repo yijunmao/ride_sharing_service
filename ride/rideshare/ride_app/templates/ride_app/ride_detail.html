@@ -1,0 +1,179 @@
+{% extends "ride_app/base.html" %}
+{% block content %}
+<table class="table">
+  <thead>
+    <h1>Ride Details</h1>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Ride ID</th>
+      <td>{{object.unique_id}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Owner Name</th>
+      <td>{{object.owner.first_name}}&nbsp{{object.owner.last_name}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Owner's Email</th>
+      <td>{{object.owner.email}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Destination</th>
+      <td>{{object.dest_addr}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Arrival Date and Time</th>
+      <td>{{object.arr_date_time}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Number of Persons from Owner's Party</th>
+      <td>{{object.no_persons_owner}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Vehicle Type</th>
+      {% if object.owner_vehicle_type == 'All'%}
+         <td>Not Specified</td>
+      {% else %}
+        <td>{{object.owner_vehicle_type}}</td>
+      {% endif %}
+    </tr>
+    <tr>
+      <th scope="row">Special Request</th>
+      {% if object.special_request == ''%}
+         <td>Not Specified</td>
+      {% else %}
+        <td>{{object.special_request}}</td>
+      {% endif %}
+    </tr>
+    <tr>
+      <th scope="row">Can Be Shared</th>
+      <td>
+        {% if object.can_shared == False %}
+          No
+        {% else %}
+          Yes
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Maximum Allowed Persons</th>
+      <td>
+        {% if object.can_shared == False %}
+          {{0}}
+        {% else %}
+          {{object.max_allowed_persons}}
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Sharer Name</th>
+      <td>
+        {% if object.can_shared == False %}
+          N/A
+        {% else %}
+          <ul>
+            {%for share in object.sharer.all%}
+              <li>{{share.user.first_name}}&nbsp{{share.user.last_name}}</li>
+            {%endfor %}
+          </ul>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Sharer's Email</th>
+      <td>
+        {% if object.can_shared == False %}
+          N/A
+        {% else %}
+        <ul>
+          {%for share in object.sharer.all%}
+            <li> {{share.user.email}}   </li>
+          {%endfor %}
+        </ul>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Number of Persons from Sharer's Party</th>
+      <td>
+        {% if object.can_shared == False %}
+          N/A
+        {% else %}
+        <ul>
+          {%for share in object.sharer.all%}
+            {% if share.user == user %}
+              <li> {{share.no_persons_sharer}} &nbsp&nbsp&nbsp <a href="{% url 'sharer-update' object.id share.id%}">Edit</a> </li>
+            {% else %}
+              <li> {{share.no_persons_sharer}} </li>
+            {% endif %}
+          {%endfor %}
+        </ul>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Sharer's Earliest Time</th>
+      <td>
+        {% if object.can_shared == False %}
+          N/A
+        {% else %}
+        <ul>
+          {%for share in object.sharer.all%}
+             <li>  {{share.earliest_time}}    </li>
+          {%endfor %}
+        </ul>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Sharer's Latest Time</th>
+      <td>
+        {% if object.can_shared == False %}
+          N/A
+        {% else %}
+          <ul>
+          {%for share in object.sharer.all%}
+             <li>  {{share.latest_time}}    </li>
+          {%endfor %}
+        </ul>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Ride Status</th>
+      <td>{{object.status}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class = "row">
+  <div class='col-md-1'>
+    {% if request.user == ride.owner %}
+      <a href="{% url 'ride-update' object.id %}">Edit</a>
+    {% endif %}
+  </div>
+  <div class = 'col-md-10'></div>
+  <div class = 'col-md-1'>
+        <a href="{% url 'active-rides' %}">Back</a>
+  </div>
+</div>
+
+{% endblock content %}
+
+
+{% block content1 %}
+  {% if object.status == "confirmed" %}
+    <div class="content-section">
+      <h3>Driver and Vehicle Info</h3>
+      <p class='text-muted'>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-light"><b>Driver's first name:</b> {{object.driver.user.first_name}}</li>
+          <li class="list-group-item list-group-item-light"><b>Driver's email:</b> {{object.driver.user.email}}</li>
+          <li class="list-group-item list-group-item-light"><b>Vehicle Type:</b> {{object.driver.vehicle.vehicle_type}}</li>
+          <li class="list-group-item list-group-item-light"><b>Vehicle Make:</b> {{object.driver.vehicle.vehicle_make}}</li>
+          <li class="list-group-item list-group-item-light"><b>Plate Number:</b> {{object.driver.vehicle.plate_number}}</li>
+        </ul>
+      </p>
+    </div>
+  {% endif %}
+{% endblock content1%}

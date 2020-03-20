@@ -1,0 +1,42 @@
+{% extends "ride_app/base.html" %}
+
+{%block content%}
+<h1>Hello, {{user.first_name}}!</h1>
+<div class="jumbotron">
+  <h1 class="display-4">Request Your Ride</h1>
+  <p class="lead">You can request a ride by specifying arrival date and time, vehicle type etc.</p>
+  <hr class="my-4">
+  <p>Please request your ride by clicking the button below.</p>
+  <a class="btn btn-primary btn-lg" href="{% url 'ride-req' %}" role="button">Start Requesting</a>
+</div>
+
+<div class="jumbotron">
+  <h1 class="display-4">Share A Ride</h1>
+  <p class="lead">You can join a ride with others by specifying your arrival date and time, party size etc.</p>
+  <hr class="my-4">
+  <p>Please join a ride by clicking the button below.</p>
+  <a class="btn btn-primary btn-lg" href="{% url 'ride-share' %}" role="button">Start Sharing</a>
+</div>
+
+<div class="jumbotron">
+  <h1 class="display-4">As A Driver</h1>
+  <p class="lead">Registered driver can start and close your ride services here.</p>
+  <hr class="my-4">
+  <p>Please claim or check a ride service by clicking the button below.</p>
+  <a class="btn btn-primary btn-lg" href="{% url 'driver-menu' %}" role="button">Driver</a>
+</div>
+{%endblock%}
+
+{% block content1 %}
+          <div class="content-section">
+            <h3>Options</h3>
+            <p class='text-muted'>
+              <ul class="list-group">
+            <li class="list-group-item list-group-item-light"><a href="{% url 'driver-register' %}">Be a Driver</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{% url 'ride-history' %}">Ride History</a></li>
+                <li class="list-group-item list-group-item-light"><a href="{% url 'active-rides' %}">Active Rides</a></li>
+              </ul>
+            </p>
+          </div>
+
+{% endblock content1%}

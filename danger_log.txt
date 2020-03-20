@@ -1,0 +1,33 @@
+- 1/19 we found when the user failed to enter the same password when asked to confirm their passwords, there was no error message to indicate them about that. We fixed that issue by adding flash error messages.
+
+- 1/20 We found when the user previously logged in and visited the home page (which is the page the user can request/share rides, and be a driver etc.) but then logged out, he could still visit that page when entering the URL to the home page in the browser directly. We fixed this issue by adding login_required decorator before the view function for the home page.
+
+- 1/21 We found there existed a security risk which was a sharer instead of owner of the ride could also delete the rides. We fixed this issue by adding a test_func in our "RideDeleteView" class in views.py file. We also fixed the similar issue in the "RideUpdateView" class.
+
+- 1/22 We found there existed the risk the owner of another ride could try to enter the URL directly to update the ride owned by others. We fixed this issue by adding test_fuc in our "RideUpdateView".
+
+- 1/23 We found that the owner of the ride could still edit the ride after it was confirmed. We fixed this issue by considering that in test_func.
+
+- 1/24 We found the sharer of a ride might enter a latest arrival time earlier than the earliest arrival time by mistake and he might also try to bring too many persons to the ride. We checked both of these in our "SharerCreateView". We also checked invalid inputs for other fields when sharing.
+
+- 1/25 We found the owner of a ride might share the ride he owns by mistake. We fixed this issue by checking it in "Sharer_CreateView".
+
+- 1/26 We found that the sharer might join the same ride repeately by mistake. We fixed this issue by checking it in "Sharer_CreateView".
+
+- 1/27 We found that the sharer might update the ride of other sharers of the same ride by entering the URL in the browser directly. We fixed this issue by adding checking statments in "RideSharerUpdateView".
+
+- 1/28 We found that the sharer might try to update the ride they share by bringing too many persons which would exceed the vehicle capacity. We fixed this issue by adding checking statements in "RideSharerUpdateView".
+
+- 1/29 We found that a driver might try to register as a driver when he has already been one. We fixed this issue by restricting him not being able to register as a driver again in "DriverRegisterView".
+
+- 1/30 We found that in addition to add ride filtering conditions based on vehicle information and capacity. The driver might have his own performance of choosing the destination address and arrival time window. We implemented these functionalities in "DriverMenuView".
+
+- 2/1 We found a non driver might try to access the driver profile page by entering the URL directly in the browser. And another driver could also malliciouslt trying to access the current driver's profile page. We checked both cases in "DriverProfileView".
+
+- 2/2 We found that the driver of a ride might try to update his profile when he still had incomplete rides. This might cause many issues e.g. not matching vehicle type or not valid vehicle capacity or special vehicle information. We fixed this issue by restricting the driver could only update his profile after he has completed all his rides.
+
+- 2/3 We found that the owner of a ride might update the number of allowed sharers when the ride was still open. We considered this issue by updating the max_alloewed_persons field of the ride in "OwnerUpdateNumberView".
+
+- 2/4 We found once the owner updated the ride. The destination address, arrival time and if the ride can be shared fields could be changed. These might lead to originally valid rides no more valid to sharers. We fixed this issue by sending notification emails to all sharers of the ride.
+
+- 2/5 We found when the sharer could delete a confirmed ride. We fixed this issue by restricting him being able to only delete open rides in "RideSharerDeleteView".

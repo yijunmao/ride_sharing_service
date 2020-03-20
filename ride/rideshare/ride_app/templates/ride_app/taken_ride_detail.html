@@ -1,0 +1,114 @@
+{% extends "ride_app/base.html" %}
+{% block content %}
+<table class="table">
+  <thead>
+    <h1>Ride Details</h1>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Ride ID</th>
+      <td>{{object.unique_id}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Owner Name</th>
+      <td>{{object.owner.first_name}}&nbsp{{object.owner.last_name}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Owner's Email</th>
+      <td>{{object.owner.email}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Destination</th>
+      <td>{{object.dest_addr}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Arrival Date and Time</th>
+      <td>{{object.arr_date_time}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Vehicle Type</th>
+      {% if object.owner_vehicle_type == 'All'%}
+         <td>Not Specified</td>
+      {% else %}
+        <td>{{object.owner_vehicle_type}}</td>
+      {% endif %}
+    </tr>
+    <tr>
+      <th scope="row">Special Request</th>
+      {% if object.special_request == ''%}
+         <td>Not Specified</td>
+      {% else %}
+        <td>{{object.special_request}}</td>
+      {% endif %}
+    </tr>
+    <tr>
+      <th scope="row">Total Number of Passengers</th>
+      <td>
+          {{no_of_passengers}}
+      </td>
+
+    <tr>
+      <th scope="row">Sharer Name</th>
+      <td>
+        {% if object.can_shared == False %}
+          N/A
+        {% else %}
+          <ul>
+            {%for share in object.sharer.all%}
+              <li>{{share.user.first_name}}&nbsp{{share.user.last_name}}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </td>
+    </tr>
+
+    <tr>
+      <th scope="row">Sharer's Email</th>
+      <td>
+        {% if object.can_shared == False %}
+          N/A
+        {% else %}
+        <ul>
+          {%for share in object.sharer.all%}
+            <li> {{share.user.email}}   </li>
+          {%endfor %}
+        </ul>
+        {% endif %}
+      </td>
+    </tr>
+
+
+    <tr>
+      <th scope="row">Number of persons from sharer's party</th>
+      <td>
+        {% if object.can_shared == False %}
+          N/A
+        {% else %}
+        <ul>
+          {%for share in object.sharer.all%}
+            <li> {{share.no_persons_sharer}}   </li>
+          {%endfor %}
+        </ul>
+        {% endif %}
+      </td>
+    </tr>
+
+    <tr>
+      <th scope="row">Ride Status</th>
+      <td>{{object.status}}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<div class = "row">
+  <div class='col-md-1'>
+  </div>
+  <div class = 'col-md-10'></div>
+  <div class = 'col-md-1'>
+        <a href="{% url 'active-rides' %}">Back</a>
+  </div>
+</div>
+
+{% endblock content %}
